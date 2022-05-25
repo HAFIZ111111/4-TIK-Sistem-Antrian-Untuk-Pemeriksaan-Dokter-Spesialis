@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rpl/layar/booking.dart';
 import 'package:rpl/layar/halaman_utama.dart';
-import 'package:rpl/layar/pilih_rs.dart';
-import 'package:rpl/layar/plih_dokter.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'dart:math';
-
+import 'package:rpl/admin/data_variable.dart';
 
 
 
@@ -112,44 +110,29 @@ Navigator.push(
                 ],
               ),
               Padding(
-      padding: EdgeInsets.fromLTRB(0, 45, 0, 60),
+      padding: EdgeInsets.fromLTRB(0, 45, 0, 0),
       child: Container(
         height: 405,
         width: 370,
         child: 
         Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             
             
                   
                  
                     Padding(
-                                padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Center(
                                   child: 
-                                    Text('Belum Booking ',
+                                    Text('Belum Booking! ',
                                     style: TextStyle(
                                       fontSize:40 ),),
                                     )
                                       ),
-                                      Center(
-                                        child: 
-                                        Text('Antrian :)',
-                                    style: TextStyle(
-                                      fontSize:40 ),),),
-                                      
-                                      Center(
-                                        child: 
-                                        Text('Booking dulu',
-                                    style: TextStyle(
-                                      fontSize:40 ),),),
-                                      Center(
-                                        child: 
-                                        Text('Ochey ;)',
-                                    style: TextStyle(
-                                      fontSize:40 ),),),
+                                     
         
           ],
         ),

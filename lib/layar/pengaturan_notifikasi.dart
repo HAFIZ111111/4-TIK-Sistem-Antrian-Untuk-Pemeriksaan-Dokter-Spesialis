@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rpl/layar/booking.dart';
 import 'package:rpl/layar/halaman_utama.dart';
-import 'package:rpl/layar/pilih_rs.dart';
-import 'package:rpl/layar/plih_dokter.dart';
+import 'package:rpl/layar/pengaturan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'dart:math';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:rpl/admin/data_variable.dart';
 
+bool bar = false; 
+bool suara = false; 
+bool getaran = false; 
 
 
 
@@ -49,9 +52,6 @@ Navigator.push(
       
     });print(_selectedIndex);
   }
-  bool bar = false; 
-  bool suara = false; 
-  bool getaran = false; 
 
   @override
   Widget build(BuildContext context) {
@@ -102,50 +102,32 @@ Navigator.push(
                   Padding
                   (padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: 
-                  Image.asset('assets/images/back.png'),),
+                  Transform.scale(
+                            scale: 1.4,
+                            child: IconButton(
+                              //iconSize: 50,
+                              icon: Image.asset('assets/images/back.png'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Pengaturan()),
+                                );
+                              },
+                            ),
+                          ),),
                   Container(
-                    width: 380,
+                    width: 350,
                     child: 
                   Align(
                   alignment: Alignment.center,
                   child:    
-                  Image.asset('assets/images/logonotifikasi.png'))) 
+                  Image.asset('assets/images/penga.png'))) 
                 ],
               ),
               SizedBox(height: 40),
               Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(10,2,10,2),
-                    height: 49,
-                    width: 370,
-                    child: 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      Text('Tampilkan di bar',
-                      style: TextStyle(fontSize: 18
-                        )),   
-                        FlutterSwitch(
-                        height: 30.0,
-                        width: 50.0,
-                        padding: 4.0,
-                        toggleSize: 20.0,
-                        borderRadius: 20.0,
-                        //activeColor: lets_cyan,
-                        value: bar,
-                        onToggle: (value) {
-                              setState(() {
-                                    bar = value;
-                              });
-                              print(bar);
-                                },),] ),
- 
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff4EC72D),width: 2),
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    //color: Color(0xffEBF1FA),
-                    )),
                     
                     SizedBox(height: 10),
                     Container(

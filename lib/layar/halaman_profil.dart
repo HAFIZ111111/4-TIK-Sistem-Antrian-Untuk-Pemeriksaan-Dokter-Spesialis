@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:rpl/admin/data_variable.dart';
+import 'package:rpl/database/data_fix.dart';
 import 'package:rpl/layar/booking.dart';
+import 'package:rpl/layar/class_utama.dart';
+import 'package:rpl/layar/halaman_login.dart';
 import 'package:rpl/layar/informasi.dart';
-import 'package:rpl/layar/pilih_rs.dart';
-import 'package:rpl/layar/plih_dokter.dart';
+import 'package:rpl/layar/pengaturan.dart';
 import 'package:rpl/layar/halaman_utama.dart';
 import 'package:rpl/layar/ubah_profil.dart';
+import 'package:rpl/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'bonus.dart';
 
 
@@ -19,6 +24,37 @@ class Profil extends StatefulWidget {
 }
  
 class _Profil extends State<Profil> {
+
+
+
+  void _refreshJournals2(String data9) async {
+ 
+    final data = await DataPasien.getItemNama("$data9");
+      setState(() {
+        users = data;
+      });
+  }
+    
+    void _initial() async {
+    logindata = await SharedPreferences.getInstance();
+
+  }
+
+ late SharedPreferences logindata;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshJournals2(pengguna);
+    _initial();
+    Future.delayed(const Duration(milliseconds: 2000), () {
+ print(pengguna + "ini loen");
+                          });
+    // Loading the diary when the app starts
+  }
+  
+
+
   @override
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
@@ -46,6 +82,94 @@ Navigator.push(
 
     });
   }
+
+ konfirmasi_logout(BuildContext context) {
+
+
+  // set up the buttons
+  Widget cancelButton = Container(
+                    height: 36,
+                    width: 110,
+                    child: TextButton(
+                        style: TextButton.styleFrom( 
+                        alignment: Alignment.center,
+                        ),
+                        onPressed: () {Navigator.pop(context); },
+                        child: Text(
+                          "Batal",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            
+                          ),
+                ),
+                ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff4EC72D)),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: Color(0xff4EC72D),
+                    )
+                    );
+  
+  Widget continueButton = Container(
+                    height: 36,
+                    width: 110,
+                    child: TextButton(
+                        style: TextButton.styleFrom( 
+                        alignment: Alignment.center,
+                        ),
+                        onPressed: () {
+                          
+ logindata.setBool('login', true);
+                        Navigator.pop(context);
+    Navigator.of(context)
+        .push(new MaterialPageRoute(builder: (context) => Halaman_login()));
+                        book = 0;
+                        
+                          },
+                        child: Text(
+                          "Konfirmasi",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            
+                          ),
+                ),
+                ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff4EC72D)),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: Color(0xff4EC72D),
+                    )
+                    );
+
+  // set up the AlertDialog
+  AlertDialog alert2 = AlertDialog(
+    title: Text("Konfirmasi"),
+    content: Text("Logout dari aplikasi?"),
+    actions: [
+      Container(
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child:
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+      
+      cancelButton,
+      continueButton,])),
+      SizedBox(height: 10,)
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert2;
+    },
+  );
+}
+
+
+
  
   @override
   Widget build(BuildContext context) {
@@ -90,12 +214,14 @@ Navigator.push(
             child: 
             Column(
               children: [
+                SizedBox(height: 5,),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    
                     Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                    child: Transform.scale(
                     scale: 1.4,
                     child:IconButton(
@@ -113,9 +239,14 @@ Navigator.push(
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                   child: Icon(Icons.settings,
-                   size: 40,
-                   color: Color(0xff4EC72D),)
+                   child: IconButton(onPressed: (){
+                     Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Pengaturan()),
+                        );
+                   }, icon: Icon(Icons.settings,
+                   color: Colors.green,
+                   size: 40,))
                   ),
                   ],
                 ),
@@ -165,7 +296,7 @@ Navigator.push(
                     width: 340,
                     child: 
                     Row(children: [
-                      Text('M Hafiz Rinaldi'
+                      Text(users[0]['username']
                         ),]),
                     decoration: BoxDecoration(
                       border: Border.all(color: Color(0xff4EC72D)),
@@ -186,7 +317,7 @@ Navigator.push(
                     Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                    Text('Hafiz221@gmail.com'),
+                    Text(users[0]['email']),
                     Icon(Icons.email),
                         ]),
                     decoration: BoxDecoration(
@@ -207,7 +338,7 @@ Navigator.push(
                     child:  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                    Text('08berapayaaaa'),
+                    Text(users[0]['no_telepon']),
                     Icon(Icons.phone),
                         ]),
                     decoration: BoxDecoration(
@@ -228,7 +359,7 @@ Navigator.push(
                     child:  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                    Text('H1235237'),
+                    Text(users[0]['bpjs']),
                     Icon(Icons.card_membership),
                         ]),
                     decoration: BoxDecoration(
@@ -251,7 +382,7 @@ Navigator.push(
                         onPressed: () {Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Ubah()),
-                        ); book = 0;
+                        );
                         },
                         child: 
                     Row(
@@ -276,6 +407,15 @@ Navigator.push(
                     height: 36,
                     width: 340,
                     child: 
+                    TextButton(
+                        style: TextButton.styleFrom( 
+                        alignment: Alignment.center,
+                        ),
+                        onPressed: () { //konfirmasi_logout(context);
+                        konfirmasi_logout(context);
+                        book = 0;
+                        },
+                        child: 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -286,7 +426,7 @@ Navigator.push(
                             color: Color.fromARGB(255, 255, 255, 255))),
                             
                       ],
-                    ),
+                    ),),
                     decoration: BoxDecoration(
                       border: Border.all(color: Color(0xff4EC72D)),
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -312,9 +452,6 @@ Navigator.push(
     )
     ));
   }
-}
-
-class _selectedIndex {
 }
 
 

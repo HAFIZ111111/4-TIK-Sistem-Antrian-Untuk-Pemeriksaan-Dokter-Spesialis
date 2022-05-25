@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rpl/admin/data_variable.dart';
 import 'package:rpl/layar/booking.dart';
 import 'package:rpl/layar/halaman_utama.dart';
-import 'package:rpl/layar/pilih_rs.dart';
-import 'package:rpl/layar/plih_dokter.dart';
+import 'package:rpl/layar/pengaturan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'dart:math';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -107,9 +107,22 @@ Navigator.push(
                   Padding
                   (padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: 
-                  Image.asset('assets/images/back.png'),),
+                  Transform.scale(
+                            scale: 1.4,
+                            child: IconButton(
+                              //iconSize: 50,
+                              icon: Image.asset('assets/images/back.png'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Pengaturan()),
+                                );
+                              },
+                            ),
+                          ),),
                   Container(
-                    width: 380,
+                    width: 350,
                     child: 
                   Align(
                   alignment: Alignment.center,
@@ -143,12 +156,9 @@ Navigator.push(
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15,0,0,10),
-                  child: Text("""gahfgahfgagbfjagfahfgha
-ahkfgagfjkahjkfahfjkahjfhjkhaf
-ahfuaghgfjkahfjkahklfhklahjkfa
-afhhagfjkaklfjklajklfa
-abhhfhajkfklajlkfa
-abhfjanbfjkanhjfhjakfklahbfjga""", style: TextStyle(fontSize: 18),)
+                  child: Text("""Lagu rossa :v
+                  
+                  """, style: TextStyle(fontSize: 50),)
                 )
               ],
             ),

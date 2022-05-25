@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rpl/layar/pilih_rs.dart';
+import 'package:rpl/layar/halaman_daftar.dart';
 
 class Pembukaan extends StatelessWidget {
   @override
@@ -41,7 +41,7 @@ class Pembukaan extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Pilih_rs()),
+                          MaterialPageRoute(builder: (context) => Halaman_daftar()),
                         );
                         },
                         child: Text(
