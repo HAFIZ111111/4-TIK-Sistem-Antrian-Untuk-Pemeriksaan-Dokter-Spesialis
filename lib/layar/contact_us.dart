@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rpl/admin/data_variable.dart';
 import 'package:rpl/layar/booking.dart';
 import 'package:rpl/layar/halaman_utama.dart';
 import 'package:rpl/layar/pengaturan.dart';
@@ -92,7 +93,7 @@ class _Contact_us extends State<Contact_us> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Utama()),
+                                    builder: (context) => Pengaturan()),
                               );
                             },
                           ),

@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rpl/layar/bantuan.dart';
 import 'package:rpl/layar/booking.dart';
+import 'package:rpl/layar/contact_us.dart';
+import 'package:rpl/layar/halaman_login.dart';
 import 'package:rpl/layar/halaman_utama.dart';
+import 'package:rpl/layar/pengaturan_notifikasi.dart';
+import 'package:rpl/admin/data_variable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Pengaturan extends StatefulWidget {
   const Pengaturan({Key? key}) : super(key: key);
@@ -12,7 +18,9 @@ class Pengaturan extends StatefulWidget {
 
 class _Pengaturan extends State<Pengaturan> {
   @override
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
+
+  late SharedPreferences logindata;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -38,6 +46,113 @@ class _Pengaturan extends State<Pengaturan> {
       }
     });
   }
+
+  void _initial() async {
+    logindata = await SharedPreferences.getInstance();
+
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    _initial();
+    }
+    
+
+
+
+
+
+  konfirmasi_logout(BuildContext context) {
+
+
+  // set up the buttons
+  Widget cancelButton = Container(
+                    height: 36,
+                    width: 110,
+                    child: TextButton(
+                        style: TextButton.styleFrom( 
+                        alignment: Alignment.center,
+                        ),
+                        onPressed: () {Navigator.pop(context); },
+                        child: Text(
+                          "Batal",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            
+                          ),
+                ),
+                ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff4EC72D)),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: Color(0xff4EC72D),
+                    )
+                    );
+  
+  Widget continueButton = Container(
+                    height: 36,
+                    width: 110,
+                    child: TextButton(
+                        style: TextButton.styleFrom( 
+                        alignment: Alignment.center,
+                        ),
+                        onPressed: () {
+                        
+ logindata.setBool('login', true);
+                        Navigator.pop(context);
+    Navigator.of(context)
+        .push(new MaterialPageRoute(builder: (context) => Halaman_login()));
+                        book = 0;
+                        
+                          },
+                        child: Text(
+                          "Konfirmasi",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            
+                          ),
+                ),
+                ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff4EC72D)),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: Color(0xff4EC72D),
+                    )
+                    );
+
+  // set up the AlertDialog
+  AlertDialog alert2 = AlertDialog(
+    title: Text("Konfirmasi"),
+    content: Text("Logout dari aplikasi?"),
+    actions: [
+      Container(
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child:
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+      
+      cancelButton,
+      continueButton,])),
+      SizedBox(height: 10,)
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert2;
+    },
+  );
+}
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +243,7 @@ class _Pengaturan extends State<Pengaturan> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                            Text("Notifikasi",
+                            Text("Suara dan Getaran",
                             style: TextStyle(fontSize: 18
                         )),
 
@@ -143,7 +258,7 @@ class _Pengaturan extends State<Pengaturan> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Utama()),
+                                          builder: (context) => Pnotifikasi()),
                                     );
                                   },
                                 ),
@@ -199,7 +314,7 @@ class _Pengaturan extends State<Pengaturan> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Utama()),
+                                          builder: (context) => Bantuan()),
                                     );
                                   },
                                 ),
@@ -255,7 +370,7 @@ class _Pengaturan extends State<Pengaturan> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Utama()),
+                                          builder: (context) => Contact_us()),
                                     );
                                   },
                                 ),
@@ -308,11 +423,8 @@ class _Pengaturan extends State<Pengaturan> {
                                   //iconSize: 50,
                                   icon: Image.asset('assets/images/next.png'),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Utama()),
-                                    );
+                                    //konfirmasi_logout(context);
+                                    konfirmasi_logout(context);
                                   },
                                 ),
                               ),

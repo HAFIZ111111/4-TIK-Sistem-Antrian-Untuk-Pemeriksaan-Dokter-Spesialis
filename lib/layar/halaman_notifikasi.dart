@@ -1,39 +1,77 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rpl/layar/halaman_dua_ubah_pass.dart';
+import 'package:rpl/database/data_fix.dart';
+import 'package:rpl/layar/booking.dart';
+import 'package:rpl/layar/class_pilih_dokter.dart';
 import 'package:rpl/layar/halaman_login.dart';
 import 'package:rpl/layar/halaman_utama.dart';
-import 'package:rpl/layar/pilih_rs.dart';
-// import 'package:logintunisia/screens/signUpScreen.dart';
-import '../widget/InputTextWidget.dart';
+import 'package:rpl/layar/informasi.dart';
 
-class Halaman_Notifikasi extends StatefulWidget {
-  const Halaman_Notifikasi({Key? key}) : super(key: key);
+List<Map<String, dynamic>> notifikasi = [];
+
+class Dokter_favorit extends StatefulWidget {
+  const Dokter_favorit({Key? key}) : super(key: key);
 
   @override
-  State<Halaman_Notifikasi> createState() => _Halaman_Notifikasi();
+  State<Dokter_favorit> createState() => _Dokter_favorit();
 }
 
-class _Halaman_Notifikasi extends State<Halaman_Notifikasi> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class _Dokter_favorit extends State<Dokter_favorit> {
+
+  
+  
+  void _refreshJournals1(String data9) async {
+ 
+    final data = await DataNotif.getItemNama("$data9");
+      setState(() {
+        notifikasi = data;
+      });
+     
+   
+  }
+  
+  void _deleteItem(int id) async {
+    await DataNotif.deleteItem(id);
+   _refreshJournals1(users[0]['username']);
+  }
+
+
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  
+
+  @override
+  void initState() {
+    //book = users[0]['book'];
+    super.initState();
+    _refreshJournals1(users[0]['username']);
+ 
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: SafeArea(
-            top: true,
-            child: Scaffold(
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
-              body: SingleChildScrollView(
-                  child: Column(
-                children: <Widget>[
-                  Row(
+    return SafeArea(
+          top: true,
+          child: Scaffold(
+   
+    
+    
+    body:
+    SingleChildScrollView(
+      child:
+    Center(
+      child:
+    Column(
+      children: [
+        Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(8, 8, 90, 15),
+                        padding: EdgeInsets.fromLTRB(5, 8, 100, 15),
                         child: Transform.scale(
                           scale: 1.4,
                           child: IconButton(
@@ -51,157 +89,85 @@ class _Halaman_Notifikasi extends State<Halaman_Notifikasi> {
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Image.asset('assets/images/notification.png'),
+                        child: Image.asset('assets/images/notif.png'),
                       ),
                     ],
                   ),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
-                      child: Container(
-                          height: 100,
-                          width: 370,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.green),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                bottomLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0),
-                                bottomRight: Radius.circular(20.0)),
-                          ),
-                          child: Row(children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Center(
-                                      child: Text('Antrian',
-                                          style: TextStyle(fontSize: 25)),
-                                    ),
-                                    Center(
-                                      child: Text('No.5',
-                                          style: TextStyle(fontSize: 25)),
-                                    ),
-                                  ]),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.green),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    bottomLeft: Radius.circular(20.0),
-                                  ),
-                                  color: Colors.green),
-                            ),
-                            Column(
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(8, 20, 0, 3),
-                                    child: Text('Nomor Antrian Anda',
-                                        style: TextStyle(fontSize: 15))),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
-                                    child: Text('Sedang Dipanggil',
-                                        style: TextStyle(fontSize: 15))),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 70, 0),
-                                    child: Text('10.00 AM',
-                                        style: TextStyle(color: Colors.green))),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-                              child: Transform.scale(
-                                scale: 1.4,
-                                child: IconButton(
-                                  //iconSize: 50,
-                                  icon: Image.asset('assets/images/next.png'),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Halaman_Dua_Ubah_Pass()),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ]))),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
-                      child: Container(
-                          height: 100,
-                          width: 370,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.green),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                bottomLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0),
-                                bottomRight: Radius.circular(20.0)),
-                          ),
-                          child: Row(children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Center(
-                                      child: Text('Antrian',
-                                          style: TextStyle(fontSize: 25)),
-                                    ),
-                                    Center(
-                                      child: Text('No.6',
-                                          style: TextStyle(fontSize: 25)),
-                                    ),
-                                  ]),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.green),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    bottomLeft: Radius.circular(20.0),
-                                  ),
-                                  color: Colors.green),
-                            ),
-                            Column(
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(10, 20, 0, 3),
-                                    child: Text('5 Menit Lagi Nomor Antrian',
-                                        style: TextStyle(fontSize: 15))),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
-                                    child: Text('Anda Akan Dipanggil',
-                                        style: TextStyle(fontSize: 15))),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 105, 0),
-                                    child: Text('10.05 AM',
-                                        style: TextStyle(color: Colors.green))),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                              child: Transform.scale(
-                                scale: 1.4,
-                                child: IconButton(
-                                  //iconSize: 50,
-                                  icon: Image.asset('assets/images/next.png'),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Utama()),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ]))),
-                ],
-              )),
-            )));
-  }
+        SizedBox(height: 10,),
+        
+        Container(
+          width: 380,
+          height: 560,
+         
+
+          child:
+ ListView.builder(
+              itemCount: notifikasi.length,
+              itemBuilder: (context, index) => Center(
+        child: 
+Container(
+  padding: EdgeInsets.all(5),
+  margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+          width: 380,
+        
+          child:
+          IntrinsicHeight(
+            child:
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+            alignment: Alignment.center,        
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+          
+           border: Border.all(color: Color(0xff4EC72D),width: 2),
+           borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+              child: Text(notifikasi[index]['no_antrian'].toString(),style: TextStyle(
+                fontSize: 50,
+              ),)),
+          Expanded(
+            child:
+          Container(
+            //color: Colors.amber,
+            padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+            child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+          Text("Antrian anda di panggil!",style: TextStyle(fontWeight: FontWeight.w500,
+          color: Colors.green,),),
+          SizedBox(height: 5,),
+          Text("Jadwal : " + notifikasi[index]['jw'],style: TextStyle(fontWeight: FontWeight.w500,
+          color: Colors.green,),),
+          SizedBox(height: 5,),
+          Text("Dokter: " + notifikasi[index]['pb'],style: TextStyle(fontWeight: FontWeight.w500,
+          color: Colors.green,),),
+  
+          ]) )
+        ),
+        
+                          IconButton(
+                            icon: const Icon(Icons.delete,color: Colors.red,size: 40,),
+                            onPressed: () {
+                             
+   _deleteItem(notifikasi[index]['id']);
+   print(notifikasi);
+                          })
+
+        
+
+    ])),decoration: BoxDecoration(
+           border: Border.all(color: Color(0xff4EC72D),width: 2),
+           borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        color: Color.fromARGB(255, 255, 255, 255),
+        
+        
+      ),
+        
+        ))
+                    ))])))));}
 }
